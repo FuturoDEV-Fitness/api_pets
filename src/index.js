@@ -20,29 +20,39 @@ app.get('/bemvindo', (request, response) => {
 
 /* CRUD pets */
 
-app.post('/pets', (request, response) => {
-    const dados = request.body
+app.post('/pets',  async (request, response) => {
+    try {
+        const dados = request.body
 
-    conexao.query(`
-        INSERT INTO pets 
-        (
-            nome,
-            tipo,
-            responsavel,
-            raca,
-            idade
-        )
-        VALUES
-        (
-           '${dados.nome}',
-           '${dados.tipo}',
-           '${dados.responsavel}',
-           '${dados.raca}',
-           '${dados.idade}' 
-        )
-    `)
+        if (!dados.nome || !dados.tipo || !dados.idade || !dados.raca) {
+            return response.send("O nome, o tipo, a raça e a idade são obrigatórios")
+        }
 
-    response.send("Cadastrado com sucesso")
+         await conexao.query(
+            `INSERT INTO pets 
+             (
+                nome,
+                idade,
+                raca,
+                tipo,
+                responsavel
+            )
+            values
+            (
+                $1,
+                $2,
+                $3,
+                $4,
+                $5
+            )
+        `, [dados.nome, dados.idade, dados.raca, dados.tipo, dados.responsavel]);
+
+        console.log(dados)
+
+        response.status(201).json({ mensagem: 'Criado com sucesso' })
+    } catch {
+       response.status(500).json({mensagem: 'Não possível cadastrar o pet'})
+    }
 })
 
 app.listen(3000, () => {
