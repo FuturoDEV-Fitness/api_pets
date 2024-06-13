@@ -15,20 +15,77 @@ const conexao = new Pool({
 /* Ação, path e da implementação  */
 
 app.get('/bemvindo', (request, response) => {
-    response.send("Bem vindo")
+    response.send("Bem vindo usuario")
 })
 
-/* CRUD pets */
+app.post('/vacinas', async (request, response) => {
+    try {
 
-app.post('/pets',  async (request, response) => {
+        const dados = request.body
+
+        if (!dados.nome || !dados.descricao || !dados.dose) {
+            return response.status(400).json({ mensagem: 'Nome,descricao e dose são obrigatorios' })
+        }
+
+        await conexao.query(`
+        INSERT INTO vacinas 
+                (
+                    nome,
+                    descricao,
+                    dose
+                )
+                values
+                (
+                    $1,
+                    $2,
+                    $3
+                )
+    `, [dados.nome, dados.descricao, dados.dose])
+
+        response.status(201).json({ mensagem: 'Vacina criada com sucesso' })
+    } catch {
+        response.status(500).json({ mensagem: 'Não possível cadastrar a vacina' })
+    }
+})
+
+/*
+Body - post e put
+query params -> get
+route params -> delete, put e get(situacao)
+*/
+app.delete('/pets/:id', (request, response) => {
+    const id = request.params.id
+
+    conexao.query("DELETE FROM pets where id = $1", [id])
+
+    response.status(204).json({mensagem: ',,,,,'})
+})
+
+app.get("/pets", async (request,response) => {
+    const dados = request.query
+    console.log(dados)
+
+    if(dados.nome) {
+        const pets = await conexao.query("SELECT * from pets where nome ilike $1", [`%${dados.nome}%`])
+        response.status(200).json(pets.rows)
+    } else {
+        const pets = await conexao.query("SELECT * from pets")
+        response.status(200).json(pets.rows)
+    }   
+})
+
+/* Cadastrar - Body (corpo) */
+app.post('/pets', async (request, response) => {
     try {
         const dados = request.body
 
         if (!dados.nome || !dados.tipo || !dados.idade || !dados.raca) {
-            return response.send("O nome, o tipo, a raça e a idade são obrigatórios")
+            return response
+                .status(400)
+                .json({ mensagem: "O nome, o tipo, a raça e a idade são obrigatórios" })
         }
 
-         await conexao.query(
+        await conexao.query(
             `INSERT INTO pets 
              (
                 nome,
@@ -51,11 +108,10 @@ app.post('/pets',  async (request, response) => {
 
         response.status(201).json({ mensagem: 'Criado com sucesso' })
     } catch {
-       response.status(500).json({mensagem: 'Não possível cadastrar o pet'})
+        response.status(500).json({ mensagem: 'Não possível cadastrar o pet' })
     }
 })
 
 app.listen(3000, () => {
     console.log("Servidor Online")
-}) 
-
+})
