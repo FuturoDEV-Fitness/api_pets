@@ -64,6 +64,53 @@ class ServicoController {
             })
         }
     }
+
+    async listarUm(request, response) {
+        try {
+            const id = request.params.id
+
+            const servico = await conexao.query(`
+                SELECT id,nome,preco from servicos
+                where id  = $1
+            `, [id])
+
+            if (servico.rows.length === 0) {
+                return response.status(404).json({
+                    mensagem: 'Não foi encontrado um serviço com esse id'
+                })
+            }
+
+            response.json(servico.rows[0])
+
+        } catch (error) {
+            response.status(500).json({
+                mensagem: 'Houve um erro ao listar o serviço'
+            })
+        }
+    }
+
+    async deletar(request, response) {
+        try {
+            const id = request.params.id
+
+            const servico = await conexao.query(`
+                delete from servicos
+                where id = $1
+                `, [id])
+
+            if (servico.rowCount === 0) {
+                return response.status(404).json({
+                     mensagem: 'Não foi encontrado um serviço com esse id'
+                })
+            }
+            
+            response.status(204).json()
+        } catch (error) {
+            response.status(500).json({
+                mensagem: 'Houve um erro ao deletar o serviço'
+            })
+        }
+    }
 }
 
 module.exports = new ServicoController()

@@ -69,7 +69,7 @@ petsRoutes.delete('/:id', async (request, response) => {
 
     conexao.query("DELETE FROM pets where id = $1", [id])
 
-    response.status(204)
+    response.status(204).json()
 })
 
 petsRoutes.get("/", async (request, response) => {
