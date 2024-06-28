@@ -100,14 +100,48 @@ class ServicoController {
 
             if (servico.rowCount === 0) {
                 return response.status(404).json({
-                     mensagem: 'Não foi encontrado um serviço com esse id'
+                    mensagem: 'Não foi encontrado um serviço com esse id'
                 })
             }
-            
+
             response.status(204).json()
         } catch (error) {
             response.status(500).json({
                 mensagem: 'Houve um erro ao deletar o serviço'
+            })
+        }
+    }
+
+    async atualizar(request, response) {
+        try {
+            const dados = request.body
+            const id = request.params.id
+
+            const dadosDoServico = await conexao.query(`
+                    select * from servicos
+                    where id = $1
+                `, [id])
+
+            const servicoAtualizado = await conexao.query(`
+              update servicos set 
+              preco = $1,
+              nome = $2,
+              descricao = $3
+              where id = $4
+              returning *
+            `, [
+                dados.preco || dadosDoServico.rows[0].preco,
+                dados.nome || dadosDoServico.rows[0].nome,
+                dados.descricao || dadosDoServico.rows[0].descricao,
+                id
+            ])
+
+            response.json(servicoAtualizado.rows[0])
+
+        } catch (error) {
+            console.log(error)
+            response.status(500).json({
+                mensagem: 'Houve um erro ao atualizar o serviço'
             })
         }
     }
