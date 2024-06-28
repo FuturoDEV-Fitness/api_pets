@@ -1,14 +1,6 @@
-const { Pool } = require('pg')
+const Database = require("../database/Database")
 
-const conexao = new Pool({
-    host: 'localhost',
-    port: 5432,
-    user: 'postgres',
-    password: 'postgres',
-    database: 'api_pets'
-})
-
-class VacinaController {
+class VacinaController extends Database {
 
     async criar(request, response) {
         try {
@@ -19,7 +11,7 @@ class VacinaController {
                 return response.status(400).json({ mensagem: 'Nome,descricao e dose são obrigatorios' })
             }
     
-            await conexao.query(`
+            await this.conexao.query(`
             INSERT INTO vacinas 
                     (
                         nome,
@@ -41,7 +33,7 @@ class VacinaController {
     }
 
     async listarTodos(request, response) {
-        const vacinas = await conexao.query("SELECT * from vacinas order by nome")
+        const vacinas = await this.conexao.query("SELECT * from vacinas order by nome")
         response.json(vacinas.rows)
     }
 }
