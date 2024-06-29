@@ -11,7 +11,7 @@ class VacinaController extends Database {
                 return response.status(400).json({ mensagem: 'Nome,descricao e dose são obrigatorios' })
             }
     
-            await this.conexao.query(`
+            await this.database.query(`
             INSERT INTO vacinas 
                     (
                         nome,
@@ -33,7 +33,7 @@ class VacinaController extends Database {
     }
 
     async listarTodos(request, response) {
-        const vacinas = await this.conexao.query("SELECT * from vacinas order by nome")
+        const vacinas = await this.database.query("SELECT * from vacinas order by nome")
         response.json(vacinas.rows)
     }
 }
