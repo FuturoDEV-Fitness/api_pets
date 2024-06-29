@@ -3,10 +3,10 @@ const { Pool } = require('pg');
 class Database {
     constructor() {
         this.database = new Pool({
-            user: 'postegres',     
+            user: 'postgres',     
             host: 'localhost',        
-            database: 'auditorios_db',  
-            password: 'postegres',     
+            database: 'pets_bd',  
+            password: 'postgres',     
             port: 5432,                
         });
     }
