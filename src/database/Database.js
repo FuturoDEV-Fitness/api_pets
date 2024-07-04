@@ -1,15 +1,6 @@
-const { Pool } = require('pg');
+const { Sequelize } = require('sequelize');
+const databaseConfig = require('../config/database.config')
 
-class Database {
-    constructor() {
-        this.database = new Pool({
-            user: 'postgres',     
-            host: 'localhost',        
-            database: 'pets_bd',  
-            password: 'postgres',     
-            port: 5432,                
-        });
-    }
-}
+const connection = new Sequelize(databaseConfig)
 
-module.exports = Database;
+module.exports = connection;
