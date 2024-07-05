@@ -3,6 +3,7 @@ const { Router } = require('express')
 // const vacinasRoutes = require("./routes/vacinas.routes")
 // const servicosRoutes = require("./routes/servicos.routes")
 // const pedidosRoutes = require("./routes/pedidos.routes")
+const responsaveisRoutes = require('./responsaveis.routes')
 
 const routes = new Router()
 
@@ -10,5 +11,6 @@ const routes = new Router()
 // routes.use('/vacinas', vacinasRoutes)
 // routes.use('/servicos', servicosRoutes)
 // routes.use('/pedidos', pedidosRoutes)
+routes.use('/responsaveis', responsaveisRoutes)
 
 module.exports = routes
