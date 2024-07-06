@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { connection } = require('../database/Database');
+const connection = require('../database/connection');
 
 const Responsavel = connection.define('responsaveis', {
     nome: {
@@ -22,6 +22,8 @@ const Responsavel = connection.define('responsaveis', {
         type: DataTypes.ENUM('Masculino', 'Feminino', 'Outro'),
         allowNull: false
     }
-})
+}, {
+    paranoid: true //  Habilita soft delete
+});
 
 module.exports = Responsavel;

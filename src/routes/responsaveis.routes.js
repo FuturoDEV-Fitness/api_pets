@@ -17,6 +17,7 @@ responsaveisRoutes.post('/', async(request, response) => {
     response.json(responsavel)
 
 })
+
 responsaveisRoutes.get('/', async(request, response) => {
     const responsaveis = await Responsavel.findAll()
 
@@ -33,6 +34,41 @@ responsaveisRoutes.get('/:id', async(request, response) => {
     }
 
     response.json(responsavel)
+})
+
+responsaveisRoutes.put('/:id', async(request, response) => {
+    const resposavelID = request.params.id
+    const dados = request.body
+
+    const responsavel = await Responsavel.findByPk(resposavelID)
+
+    if(!responsavel){
+        return response.status(404).json({mensagem: 'Responsável não encontrado'})
+    }
+
+    responsavel.nome = dados.nome
+    responsavel.idade = dados.idade
+    responsavel.email = dados.email
+    responsavel.senha = dados.senha
+    responsavel.sexo = dados.sexo
+
+    await responsavel.save()
+
+    response.json(responsavel)
+})
+
+responsaveisRoutes.delete('/:id', async(request, response) => {
+    const resposavelID = request.params.id
+
+    const responsavel = await Responsavel.findByPk(resposavelID)
+
+    if(!responsavel){
+        return response.status(404).json({mensagem: 'Responsável não encontrado'})
+    }
+
+    await responsavel.destroy()
+
+    response.json({mensagem: 'Responsável excluído com sucesso'})
 })
 
 module.exports = responsaveisRoutes
