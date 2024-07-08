@@ -22,6 +22,11 @@
 1. Opção nº 1: `sequelize-cli db:migrate:undo`
 2. Opção nº 2: `npx sequelize-cli db:migrate:undo`
 
+### Reverter todas as migrations:
+1. Opção nº 1: `sequelize-cli db:migrate:undo:all`
+2. Opção nº 2: `npx sequelize-cli db:migrate:undo:all`
+
+
 ## Trabalhando com Seeders
 
 ### Executar o seeders para gerar valores iniciais no banco de dados:
