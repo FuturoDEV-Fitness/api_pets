@@ -10,4 +10,5 @@ routes.use('/responsaveis', responsaveisRoutes)
 routes.use('/cursos', cursosRoutes)
 routes.use('/usuarios', usuariosRoutes)
 
+
 module.exports = routes
