@@ -8,6 +8,8 @@ const Curso = connection.define("cursos", {
     duracao: {
         type: DataTypes.INTEGER
     }
+}, {
+    paranoid: true
 })
 
 module.exports = Curso
