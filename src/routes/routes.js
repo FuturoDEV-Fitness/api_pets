@@ -11,9 +11,8 @@ const routes = new Router()
 routes.use('/usuarios', usuariosRoutes)
 routes.post('/login', LoginController.login)
 
-routes.use(validaToken)
-routes.use('/responsaveis', responsaveisRoutes)
-routes.use('/cursos', cursosRoutes)
+routes.use('/responsaveis', validaToken, verificarPermissao(['admin']), responsaveisRoutes)
+routes.use('/cursos', validaToken, cursosRoutes) // 'cursos'
 
 
 module.exports = routes
