@@ -14,7 +14,7 @@ function validaToken(request, response, next) {
     
         const resultado = verify(jwt[1], process.env.JWT_SECRET)
         
-        request.userId = resultado.id
+        request.usuarioId = resultado.id
 
         next()
     } catch (error) {

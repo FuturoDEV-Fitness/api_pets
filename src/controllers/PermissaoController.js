@@ -1,4 +1,5 @@
 const Permissao = require("../models/Permissao")
+const Usuario = require("../models/Usuario")
 
 
 class PermissaoController {
@@ -15,7 +16,7 @@ class PermissaoController {
         }
     }
 
-    async listar(request, response) {
+    async listarTodos(request, response) {
         try {
             const permissoes = await Permissao.findAll()
             response.json(permissoes)
@@ -29,7 +30,7 @@ class PermissaoController {
     async deletar(request, response) {
         try {
             const id = request.params.id
-            const permissao = await permissao.findByPk(id)
+            const permissao = await Permissao.findByPk(id)
 
             if (!permissao) {
                 response
@@ -49,7 +50,7 @@ class PermissaoController {
     }
 
     async atribuirPermissao(request, response) {
-        try {
+        try{
             const { usuarioId, permissaoId } = request.body
 
             const usuario = await Usuario.findByPk(usuarioId)
@@ -59,16 +60,15 @@ class PermissaoController {
                 response.status(404).json({ mensagem: 'Usuário ou permissão não encontrados' })
             }
 
-            await usuario.addPermissao(permissao)
+            await usuario.addPermissoes(permissao)
 
             response.status(204).json()
-
-        } catch (error) {
-            response.status(500).json({
-                mensagem: 'Houve um erro ao atribuir permissão ao usuário'
-            })
         }
-    
+        catch(error) {
+            console.log(error)
+            response.status(500).json({ mensagem: 'A requisição falhou' })
+        }
+
     }
 }
 

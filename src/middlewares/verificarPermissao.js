@@ -1,6 +1,8 @@
+const Permissao = require("../models/Permissao");
+const Usuario = require("../models/Usuario");
 
 const verificarPermissao = (permissoesRequeridas)  => {
-    return (request, response, next) => {
+    return async (request, response, next) => {
         try{
             const { usuarioId } = request
 
@@ -16,12 +18,9 @@ const verificarPermissao = (permissoesRequeridas)  => {
 
 
 
-            // Pega todas as permissoes atribuidas ao usuario e coloca na variavel permissoesUsuario
-            const permissoesUsuario = usuario.permissoes.map(p => p.descricao) //  ['permissao1', 'permissao2']
+            // Pega todas as permissoes atribuidas ao usuario e coloca na variavel permissoesUsuario]
+            const permissoesUsuario = usuario.permissoes.map(p => p.descricao) //
             const temPermissao = permissoesRequeridas.every(permissao => permissoesUsuario.includes(permissao))
-
-            permissoesRequeridas = [permissao1, permissao2]
-            permissoesUsuario = [permissao1, permissao2, permissao3] -> true, true -> true
 
             if(!temPermissao) {
                 return response.status(401).json({ mensagem: 'Usuário não tem uma ou mais permissões' })

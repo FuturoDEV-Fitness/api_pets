@@ -11,7 +11,7 @@ module.exports = {
           primaryKey: true,
           autoIncrement: true
         },
-        usuario_id: {
+        usuarioId: {
           allowNull: false,
           type: Sequelize.INTEGER,
           references: {
@@ -19,7 +19,7 @@ module.exports = {
             key: 'id'
           }
         },
-        permissao_id: {
+        permissaoId: {
           allowNull: false,
           type: Sequelize.INTEGER,
           references: {
@@ -27,11 +27,11 @@ module.exports = {
             key: 'id'
           }
         },
-        created_at: {
+        createdAt: {
           allowNull: false,
           type: Sequelize.DATE
         },
-        updated_at: {
+        updatedAt: {
           allowNull: false,
           type: Sequelize.DATE
         }
