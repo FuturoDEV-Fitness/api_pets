@@ -50,3 +50,7 @@ https://sequelize.org/docs/v6/core-concepts/model-basics/
 `npm install jsonwebtoken`
 ### instalar o axios
 `npm install axios`
+### instalar o Swagger UI
+`npm install swagger-ui-express`
+### instalar o Swagger AutoGen para gerar o documento Swagger de forma automatica.
+`npm install swagger-autogen`
