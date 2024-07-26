@@ -21,4 +21,4 @@ const doc = {
 const arquivoSaida = './src/routes/doc.swagger.json';
 const arquivoRotas = ['./src/routes/routes.js'];
 
-swaggerAutogen(arquivoSaida, arquivoRotas, doc);
+swaggerAutogen(arquivoSaida, arquivoRotas, doc);    
